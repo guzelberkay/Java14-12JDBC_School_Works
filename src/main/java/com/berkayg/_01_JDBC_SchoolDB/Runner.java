@@ -1,11 +1,14 @@
 package com.berkayg._01_JDBC_SchoolDB;
 
+import com.berkayg._01_JDBC_SchoolDB.entity.Ders;
 import com.berkayg._01_JDBC_SchoolDB.entity.Ogrenci;
+import com.berkayg._01_JDBC_SchoolDB.repository.DersRepository;
 import com.berkayg._01_JDBC_SchoolDB.repository.OgrenciRepository;
 
 import java.util.Scanner;
 
 public class Runner {
+    private static Scanner scanner = new Scanner(System.in);
     public static void main(String[] args) {
         menu();
     }
@@ -18,6 +21,10 @@ public class Runner {
                     1- Ogrenci Ekle
                     2- Ogrenci Listele
                     3- Ogrenci Duzenle
+                    4- Ders Ekle
+                    5- Ders Listele
+                    6- Ders Duzenle
+                    7- Ders Sil
                     0- CIKIS
                                    
                     """);
@@ -33,6 +40,19 @@ public class Runner {
                 case 3:
                     ogrenciGuncelle();
                     break;
+                case 4:
+                    dersEkle();
+                    break;
+                case 5:
+                    dersListele();
+                    break;
+                case 6:
+                    dersGuncelle();
+                    break;
+                case 7:
+                    dersSil();
+                    break;
+                    
                 case 0:
                     System.out.println("Cisik yapildi...");
                     break;
@@ -44,9 +64,38 @@ public class Runner {
 
     }
 
+    private static void dersSil() {
+        System.out.print("Silinecek dersin id numarasini giriniz: ");
+        int silinecekDersId = scanner.nextInt();  scanner.nextLine();
+
+        new DersRepository().delete(silinecekDersId);
+    }
+
+    private static void dersGuncelle() {
+        System.out.print("Guncellenecek dersin id numarasini giriniz: ");
+        int guncellenecekDersId = scanner.nextInt();  scanner.nextLine();
+
+        System.out.println("Ders adi: ");
+        String ad = scanner.nextLine();
+
+        Ders guncellenecekDers = new Ders(guncellenecekDersId,ad);
+        new DersRepository().update(guncellenecekDers);
+
+    }
+
+    private static void dersListele() {
+        new DersRepository().findAll().forEach(System.err::println);
+    }
+
+    private static void dersEkle() {
+        System.out.print("Ders adi: ");
+        String ad = scanner.nextLine();
+        new DersRepository().save(new Ders(ad));
+    }
+
     private static void ogrenciGuncelle() {
-        Scanner scanner = new Scanner(System.in);
-        System.out.print("Guncellenecek ogrencinin id numarasını giriniz: ");
+
+        System.out.print("Guncellenecek ogrencinin id numarasini giriniz: ");
         int guncellenecekOgrenciId = scanner.nextInt();  scanner.nextLine();
         System.out.println("Ogrenci adi: ");
         String ad = scanner.nextLine();
@@ -83,4 +132,5 @@ public class Runner {
         new OgrenciRepository().save(yeniOgrenci);
 
     }
+   
 }

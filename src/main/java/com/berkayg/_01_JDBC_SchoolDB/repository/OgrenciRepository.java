@@ -7,7 +7,7 @@ import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 
-public class OgrenciRepository {
+public class OgrenciRepository implements ICrud<Ogrenci>{
 
     private Crud crud;
 
@@ -27,11 +27,12 @@ public class OgrenciRepository {
     public void update(Ogrenci ogrenci) {
         String SQL_UPDATE = "UPDATE tblogrenci SET ad='%s', soyad='%s', yas=%d, veliadi='%s', iletisimtel='%s' where id=%d"
                 .formatted(ogrenci.getAd(), ogrenci.getSoyad(), ogrenci.getYas(),
-                           ogrenci.getVeliadi(), ogrenci.getIletisimtel(),ogrenci.getId());
+                        ogrenci.getVeliadi(), ogrenci.getIletisimtel(), ogrenci.getId());
         crud.executeUpdate(SQL_UPDATE);
     }
 
     public void delete(int id) {
+
 
     }
 
@@ -53,7 +54,6 @@ public class OgrenciRepository {
                 ogrenciList.add(ogrenci);     // ogrencimizi listeye ekledik
 
             }
-            return ogrenciList;
 
         } catch (SQLException e) {
             System.out.println("Veri getirmede sorun oluşturdu....");
@@ -62,5 +62,10 @@ public class OgrenciRepository {
         }
         return ogrenciList;
 
+    }
+
+    @Override
+    public Ogrenci findById(int id) {
+        return null;
     }
 }
